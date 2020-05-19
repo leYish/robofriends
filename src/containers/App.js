@@ -1,7 +1,8 @@
- import React, { Component } from 'react'
+import React, { Component } from 'react'
 import Scroll from '../componenets/Scroll';
 import SearchBox from '../componenets/SearchBox';
 import CardList from '../componenets/CardList';
+import ErrorBoundry from '../componenets/ErrorBoundry'
 import './App.css';
 
 
@@ -23,7 +24,7 @@ class App extends Component {
             .then(users => { this.setState({ robots: users }) });
     }
     render() {
-        const { robots, searchField} = this.state;
+        const { robots, searchField } = this.state;
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchField.toLowerCase());
         });
@@ -36,7 +37,9 @@ class App extends Component {
                     <h1 className="f1">RoboFriend</h1>
                     <SearchBox searchChange={this.onSearchChange} />
                     <Scroll>
-                        <CardList robots={filteredRobots} />
+                        <ErrorBoundry>
+                            <CardList robots={filteredRobots} />
+                        </ErrorBoundry>
                     </Scroll>
                 </div>
             );
